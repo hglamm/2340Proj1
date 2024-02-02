@@ -53,6 +53,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         private View editButton;
         private View deleteButton;
 
+
         public AssignmentViewHolder(@NonNull View itemView) {
             super(itemView);
             titleTextView = itemView.findViewById(R.id.titleTextView);
