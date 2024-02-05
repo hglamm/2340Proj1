@@ -3,10 +3,15 @@ package com.example.gt_scheduler.ui.home;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,7 +22,10 @@ import com.example.gt_scheduler.R;
 import com.example.gt_scheduler.databinding.FragmentHomeBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements AssignmentAdapter.OnItemClickListener {
@@ -25,6 +33,7 @@ public class HomeFragment extends Fragment implements AssignmentAdapter.OnItemCl
     private FragmentHomeBinding binding;
     private List<Assignment> assignments = new ArrayList<>(); // List to store assignments
     private AssignmentAdapter adapter;
+    private SortingOption sortByValue;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -33,6 +42,8 @@ public class HomeFragment extends Fragment implements AssignmentAdapter.OnItemCl
         View root = binding.getRoot();
 
         FloatingActionButton fab = root.findViewById(R.id.fab);
+        FloatingActionButton sortByFab = root.findViewById(R.id.sortByFab);
+        sortByFab.setOnClickListener(view -> showSortAssignmentDialog());
         fab.setOnClickListener(view -> showAddAssignmentDialog());
 
         RecyclerView recyclerView = binding.recyclerView;
@@ -80,7 +91,6 @@ public class HomeFragment extends Fragment implements AssignmentAdapter.OnItemCl
                 });
         AlertDialog dialog = builder.create();
         dialog.show();
-
     }
 
     private void updateUI() {
@@ -113,13 +123,14 @@ public class HomeFragment extends Fragment implements AssignmentAdapter.OnItemCl
         View dialogView = inflater.inflate(R.layout.dialog_add_assignment, null);
 
         EditText titleEditText = dialogView.findViewById(R.id.titleEditText);
-        EditText dueDateEditText = dialogView.findViewById(R.id.dueDateEditText);
         EditText classEditText = dialogView.findViewById(R.id.classEditText);
+        EditText dueDateEditText = dialogView.findViewById(R.id.dueDateEditText);
 
         // Pre-populate the EditText fields with existing assignment details
         titleEditText.setText(assignment.getTitle());
-        dueDateEditText.setText(assignment.getDueDate());
         classEditText.setText(assignment.getClassName());
+        dueDateEditText.setText(assignment.getDueDate());
+
 
         builder.setView(dialogView)
                 .setTitle("Edit Assignment")
@@ -138,6 +149,80 @@ public class HomeFragment extends Fragment implements AssignmentAdapter.OnItemCl
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void showSortAssignmentDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater = requireActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_sort_assignments, null);
+
+        RadioButton sortByClass = dialogView.findViewById(R.id.sortByClass);
+        RadioButton sortByDueDate = dialogView.findViewById(R.id.sortByDueDate);
+
+        sortByClass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortByValue = SortingOption.COURSE;
+                updateUI();
+            }
+        });
+
+        sortByDueDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortByValue = SortingOption.DUEDATE;
+                updateUI();
+            }
+        });
+
+        builder.setView(dialogView)
+                .setTitle("Sort By:")
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (sortByValue == SortingOption.DUEDATE) {
+                            // sort assignments by due date
+                            for (int i = 0; i < assignments.size(); i++) {
+                                String min = assignments.get(i).getDueDate();
+                                int index = i;
+                                for (int j = i + 1; j < assignments.size(); j++) {
+                                    if (min.compareTo(assignments.get(j).getDueDate()) > 0) {
+                                        min = assignments.get(j).getDueDate();
+                                        index = j;
+                                    }
+                                }
+                                Assignment temp = assignments.get(index);
+                                assignments.set(index, assignments.get(i));
+                                assignments.set(i, temp);
+                            }
+                        } else if (sortByValue == SortingOption.COURSE) {
+                            // sort assignments by class
+                            for (int i = 0; i < assignments.size(); i++) {
+                                String min = assignments.get(i).getClassName();
+                                int index = i;
+                                for (int j = i + 1; j < assignments.size(); j++) {
+                                    if (min.compareTo(assignments.get(j).getClassName()) > 0) {
+                                        min = assignments.get(j).getClassName();
+                                        index = j;
+                                    }
+                                }
+                                Assignment temp = assignments.get(index);
+                                assignments.set(index, assignments.get(i));
+                                assignments.set(i, temp);
+                            }
+                        }
+
+                        updateUI();
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 });
