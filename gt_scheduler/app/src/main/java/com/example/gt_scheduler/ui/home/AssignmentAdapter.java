@@ -3,6 +3,7 @@ package com.example.gt_scheduler.ui.home;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,10 +49,11 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
 
     class AssignmentViewHolder extends RecyclerView.ViewHolder {
         private TextView titleTextView;
-        private TextView dueDateTextView;
         private TextView classTextView;
+        private TextView dueDateTextView;
         private View editButton;
         private View deleteButton;
+
 
         public AssignmentViewHolder(@NonNull View itemView) {
             super(itemView);

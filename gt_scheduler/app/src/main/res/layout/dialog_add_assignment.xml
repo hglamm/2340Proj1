@@ -15,7 +15,7 @@
         android:id="@+id/dueDateEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Due Date" />
+        android:hint="Due Date (mm/dd)" />
 
     <EditText
         android:id="@+id/classEditText"

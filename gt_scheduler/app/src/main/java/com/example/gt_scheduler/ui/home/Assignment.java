@@ -4,7 +4,6 @@ public class Assignment {
     private String title;
     private String dueDate;
     private String className;
-
     public Assignment(String title, String dueDate, String className) {
         this.title = title;
         this.dueDate = dueDate;
