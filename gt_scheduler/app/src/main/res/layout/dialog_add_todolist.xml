@@ -18,7 +18,7 @@
         android:hint="Task Description" />
 
     <EditText
-        android:id="@+id/categoryEditText"s
+        android:id="@+id/categoryEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Category" />
