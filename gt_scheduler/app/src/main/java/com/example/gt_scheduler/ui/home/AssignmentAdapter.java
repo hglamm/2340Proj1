@@ -3,7 +3,6 @@ package com.example.gt_scheduler.ui.home;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -95,65 +94,3 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
         }
     }
 }
-
-
-//package com.example.gt_scheduler.ui.home;
-//
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.TextView;
-//
-//import androidx.annotation.NonNull;
-//import androidx.recyclerview.widget.RecyclerView;
-//
-//import com.example.gt_scheduler.R;
-//
-//import java.util.List;
-//
-//public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.AssignmentViewHolder> {
-//
-//    private List<Assignment> assignments;
-//
-//    public AssignmentAdapter(List<Assignment> assignments) {
-//        this.assignments = assignments;
-//    }
-//
-//    @NonNull
-//    @Override
-//    public AssignmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.item_assignment, parent, false);
-//        return new AssignmentViewHolder(view);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull AssignmentViewHolder holder, int position) {
-//        Assignment assignment = assignments.get(position);
-//        holder.bind(assignment);
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return assignments.size();
-//    }
-//
-//    static class AssignmentViewHolder extends RecyclerView.ViewHolder {
-//        private TextView titleTextView;
-//        private TextView dueDateTextView;
-//        private TextView classTextView;
-//
-//        public AssignmentViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//            titleTextView = itemView.findViewById(R.id.titleTextView);
-//            dueDateTextView = itemView.findViewById(R.id.dueDateTextView);
-//            classTextView = itemView.findViewById(R.id.classTextView);
-//        }
-//
-//        public void bind(Assignment assignment) {
-//            titleTextView.setText(assignment.getTitle());
-//            dueDateTextView.setText(assignment.getDueDate());
-//            classTextView.setText(assignment.getClassName());
-//        }
-//    }
-//}
