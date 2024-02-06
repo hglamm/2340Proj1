@@ -83,7 +83,7 @@ public class ExamAdapter extends RecyclerView.Adapter<ExamAdapter.ExamViewHolder
 
         public void bind(Exam exam) {
             examClassTextView.setText(exam.getClassName());
-            dateTextView.setText(exam.getDate().toString());
+            dateTextView.setText(exam.getDate());
         }
     }
 

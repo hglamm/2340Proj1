@@ -36,7 +36,7 @@ public class GalleryFragment extends Fragment implements ExamAdapter.OnItemClick
         examFab.setOnClickListener(view -> showAddExamDialog());
 
         RecyclerView recyclerView = binding.recyclerView;
-
+        adapter = new ExamAdapter(exams, this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
